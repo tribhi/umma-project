@@ -1,0 +1,32 @@
+<launch>
+    <!-- run node extract pointcloud of people-->
+    <node pkg="umma_navigation" type="people_pointcloud" name="people_ptCloud">
+    </node>
+    <!-- run pointcloud_to_laserscan node -->
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+        <remap from="cloud_in" to="people_point"/>
+        <remap from="scan" to="people_scan"/>
+        <rosparam>
+            target_frame: odom # Leave disabled to output scan in pointcloud frame
+            transform_tolerance: 0.5
+            min_height: 0.0
+            max_height: 5.0
+
+            angle_min: -M_PI/2
+            angle_max: M_PI/2
+            angle_increment: M_PI/360.0
+            scan_time: 0.0
+            range_min: 0.05
+            range_max: 25.0
+            use_inf: true
+            inf_epsilon: 1.0
+
+            # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+            # 0 : Detect number of cores
+            # 1 : Single threaded
+            # 2->inf : Parallelism level
+            concurrency_level: 1
+        </rosparam>
+    </node>
+
+</launch>

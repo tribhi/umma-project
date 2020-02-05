@@ -1,0 +1,7 @@
+  
+plugins:
+ - {name: static_map, type: "costmap_2d::StaticLayer"}
+ - {name: obstacles,  type: "costmap_2d::ObstacleLayer"}
+ #- {name: people,     type: "social_navigation_layers::PassingLayer"}
+ #- {name: proxemic,   type: "social_navigation_layers::ProxemicLayer"}
+ - {name: inflater,   type: "costmap_2d::InflationLayer"}

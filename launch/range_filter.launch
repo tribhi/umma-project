@@ -1,0 +1,7 @@
+
+<launch>
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+    <rosparam command="load" file="$(find umma_navigation)/params/range_filter_example.yaml" />
+    <remap from="scan" to="base_scan_raw"/>
+  </node>
+</launch>

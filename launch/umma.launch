@@ -1,0 +1,43 @@
+<launch>
+
+    <!-- run yolo node -->
+    <include file="$(find darknet_ros)/launch/yolo_v3.launch" /> 
+    <!-- run node extract pointcloud of people-->
+    <node pkg="umma_navigation" type="people_pointcloud" name="person_bb"/>
+        <rosparam command="load" file="$(find umma_navigation)/params/people_cloud.yaml" />
+
+    <!-- publish people_scan topic-->>
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+        <remap from="cloud_in" to="people_point"/>
+        <remap from="scan" to="people_scan"/>
+        <rosparam>
+            target_frame: odom # Leave disabled to output scan in pointcloud frame
+            transform_tolerance: 0.5
+            min_height: 0.0
+            max_height: 5.0
+
+            angle_min: -M_PI/2
+            angle_max: M_PI/2
+            angle_increment: M_PI/360.0
+            scan_time: 0.0
+            range_min: 0.05
+            range_max: 25.0
+            use_inf: true
+            inf_epsilon: 1.0
+
+            # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+            # 0 : Detect number of cores
+            # 1 : Single threaded
+            # 2->inf : Parallelism level
+            concurrency_level: 1
+        </rosparam>
+    </node>
+
+    <!-- run range filter node -->
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+        <rosparam command="load" file="$(find umma_navigation)/params/range_filter_example.yaml" />
+        <remap from="scan" to="base_scan_raw"/>
+    </node>
+
+
+</launch>

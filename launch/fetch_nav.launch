@@ -1,0 +1,30 @@
+<launch>
+
+<param name="use_sim_time" value="true" />
+
+  <arg name="map_file" default="$(find umma_navigation)/maps/right_size.yaml" />
+
+  <!-- Navigation parameter files -->
+  <arg name="move_base_include" default="$(find umma_navigation)/launch/include/move_base_sim.launch.xml" />
+  <arg name="amcl_include" default="$(find umma_navigation)/launch/include/amcl.launch.xml" />
+
+  <!-- serve up a map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- run amcl with default parameters -->
+  <include file="$(arg amcl_include)" />
+
+  <!-- generate cost map -->
+  <node pkg="move_base" type="move_base" name="move_base" respawn="true" output="screen">
+    <rosparam file="$(find umma_navigation)/params/costmap_common.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find umma_navigation)/params/fetch/costmap_common.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find umma_navigation)/params/costmap_common.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find umma_navigation)/params/fetch/costmap_common.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find umma_navigation)/params/costmap_local.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find umma_navigation)/params/fetch/costmap_local.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find umma_navigation)/params/costmap_global.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find umma_navigation)/params/fetch/costmap_global.yaml" command="load" ns="global_costmap" />
+    
+  </node>
+
+</launch>
