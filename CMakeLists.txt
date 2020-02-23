@@ -218,7 +218,7 @@ include_directories(
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
-add_library(global_planner_lib src/global_planner.cpp)
+# add_library(global_planner_lib src/global_planner.cpp)
 
 
 ## Add folders to be run by python nosetests

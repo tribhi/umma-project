@@ -1,4 +1,4 @@
-  
+# resolution: 1.0  
 plugins:
  - {name: static_map, type: "costmap_2d::StaticLayer"}
  - {name: obstacles,  type: "costmap_2d::ObstacleLayer"}

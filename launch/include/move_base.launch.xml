@@ -9,8 +9,10 @@
   <arg name="odom_topic" default="odom" />
 
   <!-- planners, costmaps, etc -->
-  <node pkg="move_base" type="move_base" name="move_base" respawn="true" output="screen" >
-    <!-- launch-prefix="xterm -e gdb args"> -->
+  <node pkg="move_base" type="move_base" name="move_base" respawn="true" output="screen" launch-prefix="xterm -e gdb --args"> 
+
+
+    <!--remember to put dash dash in front of args-->
 
     <rosparam file="$(find umma_navigation)/params/costmap_common.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find umma_navigation)/params/fetch/costmap_common.yaml" command="load" ns="global_costmap" />

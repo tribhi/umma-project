@@ -3,7 +3,7 @@
   <!-- Navigation requires at least one map.
        In addition, it is sometimes desirable to have a "keepout" map
        which is used for costmaps, but not localization -->
-  <arg name="map_file" default="$(find umma_navigation)/maps/right_size.yaml" />
+  <arg name="map_file" default="$(find umma_navigation)/maps/right_size.pgm 0.05" />
   <arg name="use_keepout" default="false" />
 
   <!-- Navigation parameter files -->

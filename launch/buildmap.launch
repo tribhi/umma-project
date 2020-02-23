@@ -1,0 +1,9 @@
+<launch>
+
+	<node pkg = "slam_karto" type="slam_karto" name="slam_karto" output="screen">
+		<param name="resolution" type="double" value="1.0"/>
+		<remap from="scan" to="base_scan"/>
+	</node>
+
+</launch>
+
