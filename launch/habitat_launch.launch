@@ -1,0 +1,19 @@
+<launch>
+
+<node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+    <remap from="image" to="ros_img_depth"/>
+    <remap from="camera_info" to="camera_info_topic"/>
+    <param name="output_frame_id" value="laser" />
+    <param name="scan_time" value="0.025" />
+</node>
+
+<node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+
+    <param name="max_iterations" value="10"/>
+    <param name="fixed_frame" value="odom"/>
+    <param name="base_frame" value="base_frame"/>
+    <param name="fixed_frame" value="odom"/>
+
+</node>
+
+</launch>
