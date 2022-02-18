@@ -19,6 +19,9 @@
       <remap from="rgbd_image" to="rgbd_image"/>
     </node>
 
+    <!-- output -->
+  	<remap from="grid_map" to="/map"/>
+
     <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
           <param name="frame_id"        type="string" value="base_frame"/>
           <param name="subscribe_depth" type="bool"   value="false"/>
@@ -35,7 +38,9 @@
           <param name="RGBD/LinearUpdate"         type="string" value="0.01"/>
           <param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>\
           <param name="Reg/Force3DoF"             type="string" value="true"/>
-          <param name="Grid/FromDepth"            type="string" value="false"/>
+          <param name="Grid/Sensor"               type="string" value="1"/>
+          <param name="Grid/MaxObstacleHeight"    type="string" value="1.5"/>
+          <param name="Grid/3D"                   type="string" value="true"/>
     </node>
   </group>
 </launch>
