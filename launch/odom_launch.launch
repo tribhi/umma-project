@@ -1,0 +1,65 @@
+<launch>
+
+  <!-- ROBOT MAPPING VERSION: use this with ROS bag demo_mapping.bag -->
+  <!-- WARNING : Database is automatically deleted on each startup -->
+  <!--           See "delete_db_on_start" option below... -->
+
+  <!-- Choose visualization -->
+  <arg name="rviz" default="false" />
+  <arg name="rtabmapviz" default="false" /> 
+  
+  <param name="use_sim_time" type="bool" value="false"/>
+  
+  <!-- Localization-only mode -->
+  <arg name="localization"      default="false"/>
+
+  <arg     if="$(arg localization)" name="rtabmap_args"  default=""/>
+  <arg unless="$(arg localization)" name="rtabmap_args"  default="--delete_db_on_start"/>
+
+    <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen">
+      <remap from="rgb/image"        to="/robot_1_rgb"/>
+      <remap from="depth/image"      to="/robot_1_depth"/>
+      <remap from="rgb/camera_info"  to="/robot_1_camera_info_topic"/>
+      <remap from="rgbd_image"       to="rgbd_image"/> <!-- output -->
+      
+      <!-- Should be true for not synchronized camera topics 
+           (e.g., false for kinectv2, zed, realsense, true for xtion, kinect360)-->
+      <param name="approx_sync"       value="true"/> 
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="point_cloud_xyz" args="standalone rtabmap_ros/point_cloud_xyz" output="screen">
+      <remap from="depth/image"      to="/robot_1_depth"/>
+      <remap from="depth/camera_info"  to="/robot_1_camera_info_topic"/>
+      
+      <!-- Should be true for not synchronized camera topics 
+           (e.g., false for kinectv2, zed, realsense, true for xtion, kinect360)-->
+      <param name="approx_sync"       value="true"/> 
+      <param name="decimation"       value="5"/> 
+      <!-- <param name="max_depth"       value="1.3"/> -->
+    </node>
+
+    <!-- Odometry -->
+    <node pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odometry">
+      <param name="subscribe_rgbd" type="bool"   value="true"/>
+      <param name="frame_id"       type="string" value="base_frame"/>
+      <remap from="rgbd_image" to="rgbd_image"/>
+      <remap from="/odom" to="odom"/>
+      <param name="Reg/Force3DoF"    value="true" />
+      <param name="GFTT/MinDistance" type="string" value="10"/> <!-- default 5 pixels -->
+      <param name="approx_sync"       value="true"/> 
+    </node>
+
+
+    <!-- Create point cloud for the local planner -->
+    <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="standalone rtabmap_ros/obstacles_detection" output="screen">
+        <remap from="cloud" to="/cloud"/>
+        <remap from="obstacles" to="/planner_cloud"/>
+
+        <param name="frame_id" type="string" value="base_frame"/>
+        <param name="map_frame_id" type="string" value="map"/>
+        <param name="min_cluster_size" type="int" value="20"/>
+        <param name="max_obstacles_height" type="double" value="1.5"/>
+        <param name="approx_sync"       value="true"/> 
+    </node>
+
+</launch>

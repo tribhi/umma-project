@@ -19,8 +19,8 @@
     
 </node> -->
 
-<node pkg="explore_lite" type="explore" respawn="false" name="explore" output="screen"> 
+<!-- <node pkg="explore_lite" type="explore" respawn="false" name="explore" output="screen"> 
     <rosparam file="$(find umma_navigation)/config/exploration.yaml" command="load" />    
-</node>
+</node> -->
 
 </launch>
