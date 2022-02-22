@@ -86,6 +86,8 @@
 	  <!-- localization mode -->
 	  <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
 	  <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
+    <param     if="$(arg localization)" name="~database_path" type="string" value="/mnt/Sauna/rtabmap.db"/>
+    
 	  <param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/>
     </node>
     
