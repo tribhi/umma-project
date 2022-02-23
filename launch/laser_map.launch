@@ -38,7 +38,7 @@
   <group ns="rtabmap">
     <!-- SLAM (robot side) -->
     <!-- args: "delete_db_on_start" and "udebug" -->
-    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_args)">
+    <node name="rtabmap_laser" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_args)">
 	  <param name="frame_id"           type="string" value="base_frame"/>
 	  <param name="wait_for_transform" type="bool" value="true"/>
 	
@@ -47,7 +47,7 @@
       <param name="subscribe_rgbd"  type="bool"   value="true"/>
 	
 	  <!-- As /az3/base_controller/odom topic doesn't provide covariances, we use TF to get odom and we fix the covariance -->
-	  <param name="odom_frame_id"            type="string" value="odom"/>
+	  <param name="odom_frame_id"            type="string" value="/rtabmap/odom"/>
 	  <param name="odom_tf_linear_variance"  type="double" value="0.001"/>
 	  <param name="odom_tf_angular_variance" type="double" value="0.001"/>
     <param name="approx_sync"       value="true"/> 
@@ -58,7 +58,7 @@
       <remap from="rgb/camera_info"  to="/robot_1_camera_info_topic"/>
       <remap from="rgbd_image" to="/rgbd_image"/>
       <!-- output -->
-  	  <remap from="grid_map" to="/map"/>
+  	  <remap from="grid_map" to="/laser_map"/>
 	  <!-- <param name="rgb/image_transport"   type="string" value="compressed"/>
 	  <param name="depth/image_transport" type="string" value="compressedDepth"/>
 	 -->
@@ -73,7 +73,7 @@
 	  <param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/> <!-- Optimize graph from initial node so /map -> /odom transform will be generated -->
 	  <param name="RGBD/OptimizeMaxError"     type="string" value="4"/>	    <!-- Reject any loop closure causing large errors (>3x link's covariance) in the map -->
 	  <param name="Reg/Force3DoF"             type="string" value="true"/>  <!-- 2D SLAM -->
-	  <param name="Grid/Sensor"               type="string" value="2"/>     <!-- Create 2D occupancy grid from laser scan -->
+	  <param name="Grid/Sensor"               type="string" value="0"/>     <!-- Create 2D occupancy grid from laser scan -->
 	  <param name="Mem/STMSize"               type="string" value="30"/>    <!-- increased to 30 to avoid adding too many loop closures on just seen locations -->
 	  <param name="RGBD/LocalRadius"          type="string" value="5"/>     <!-- limit length of proximity detections -->
 	  <param name="Icp/CorrespondenceRatio"   type="string" value="0.04"/>   <!-- minimum scan overlap to accept loop closure -->
@@ -84,6 +84,7 @@
     <param name="Grid/MaxObstacleHeight"    type="string" value="1.5"/>
     <param name="Grid/3D"                   type="string" value="true"/>
     <param name="Grid/RayTracing"           type="string" value="true"/>
+    <param name="publish_tf"                type="string" value="false"/>
 	  
 	  <!-- localization mode -->
 	  <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
