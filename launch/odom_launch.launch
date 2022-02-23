@@ -53,13 +53,14 @@
     <!-- Create point cloud for the local planner -->
     <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="standalone rtabmap_ros/obstacles_detection" output="screen">
         <remap from="cloud" to="/cloud"/>
-        <remap from="obstacles" to="/planner_cloud"/>
-
+        <!-- <remap from="obstacles" to="/planner_cloud"/> -->
         <param name="frame_id" type="string" value="base_frame"/>
         <param name="map_frame_id" type="string" value="map"/>
-        <param name="min_cluster_size" type="int" value="20"/>
-        <param name="max_obstacles_height" type="double" value="1.5"/>
+        <param name="Grid/MinClusterSize" type="int" value="20"/>
+        <param name="Grid/MaxObstacleHeight" type="double" value="1.0"/>
         <param name="approx_sync"       value="true"/> 
+        <param name="wait_for_transform"       value="true"/> 
+        
     </node>
 
 </launch>

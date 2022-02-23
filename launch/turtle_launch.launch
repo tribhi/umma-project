@@ -75,11 +75,11 @@
 	  <param name="Grid/Sensor"               type="string" value="2"/>     <!-- Create 2D occupancy grid from laser scan -->
 	  <param name="Mem/STMSize"               type="string" value="30"/>    <!-- increased to 30 to avoid adding too many loop closures on just seen locations -->
 	  <param name="RGBD/LocalRadius"          type="string" value="5"/>     <!-- limit length of proximity detections -->
-	  <param name="Icp/CorrespondenceRatio"   type="string" value="0.1"/>   <!-- minimum scan overlap to accept loop closure -->
-	  <param name="Icp/PM"                    type="string" value="false"/>
+	  <param name="Icp/CorrespondenceRatio"   type="string" value="0.04"/>   <!-- minimum scan overlap to accept loop closure -->
+	  <!-- <param name="Icp/PM"                    type="string" value="false"/>
 	  <param name="Icp/PointToPlane"          type="string" value="false"/>
 	  <param name="Icp/MaxCorrespondenceDistance"  type="string" value="0.15"/>
-	  <param name="Icp/VoxelSize"             type="string" value="0.05"/>
+	  <param name="Icp/VoxelSize"             type="string" value="0.05"/> -->
     <param name="Grid/MaxObstacleHeight"    type="string" value="1.5"/>
     <param name="Grid/3D"                   type="string" value="true"/>
 	  
